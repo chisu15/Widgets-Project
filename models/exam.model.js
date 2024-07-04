@@ -1,21 +1,27 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const subjectSchema = new mongoose.Schema({
+const examSchema = new mongoose.Schema({
     title: String,
     description: String,
-    createdBy: {
+    subjectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Subject'
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     slug: {
         type: String,
         unique: true
     }
+
 }, {
     timestamps: true,
-    collection: 'Subject'
+    collection: 'Exam'
 });
-subjectSchema.pre('save', function (next) {
+
+examSchema.pre('save', function (next) {
     let title = this.title;
     if (title && typeof title === 'string') {
         this.slug = slugify(title, {
@@ -24,7 +30,7 @@ subjectSchema.pre('save', function (next) {
         next();
     }
 });
-subjectSchema.pre('updateOne', function (next) {
+examSchema.pre('updateOne', function (next) {
     let title = this._update.title;
     if (title && typeof title === 'string') {
         this._update.$set.slug = slugify(title, {
@@ -34,5 +40,5 @@ subjectSchema.pre('updateOne', function (next) {
     }
 });
 
-const Subject = mongoose.model('Subject', subjectSchema);
-module.exports = Subject;
+const Exam = mongoose.model('Exam', examSchema);
+module.exports = Exam;
