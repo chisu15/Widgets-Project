@@ -4,10 +4,12 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: true,
-        sparse: true
+        sparse: true,
+        lowercase: true
     },
     password: {
-        type: String
+        type: String,
+        require: true
     },
     googleId: {
         type: String,
@@ -24,14 +26,11 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    },
     role: {
         type: String,
         required: true,
     },
+    fullName: String
 }, {
     timestamps: true,
     collection: 'User'

@@ -1,18 +1,18 @@
-const Subject = require("../models/subject.model");
+const Role = require("../models/role.model");
 
 module.exports.index = async (req, res) => {
     try {
-        const subjectList = await Subject.find();
-        if (subjectList.length === 0) {
+        const roleList = await Role.find();
+        if (roleList.length === 0) {
             return res.json({
                 code: 204,
-                message: "No subjects found"
+                message: "No role found"
             })
         }
         res.json({
             code: 200,
             message: "Get data success",
-            data: subjectList
+            data: roleList
         })
     } catch (error) {
         res.json({
@@ -25,17 +25,17 @@ module.exports.index = async (req, res) => {
 module.exports.detail= async (req, res) => {
     try {
         const { id } = req.params;
-        const subject = await Subject.findById(id);
-        if (!subject) {
+        const role = await Role.findById(id);
+        if (!role) {
             return res.json({
                 code: 204,
-                message: "No subject found"
+                message: "No Role found"
             })
         }
         res.json({
             code: 200,
             message: 'Get data success',
-            data: subject
+            data: role
         });
     } catch (error) {
         res.json({
@@ -47,10 +47,10 @@ module.exports.detail= async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const subjectCreate = new Subject({
+        const roleCreate = new Role({
             ...req.body,
         });
-        await subjectCreate.save();
+        await roleCreate.save();
         res.json({
             code: 200,
             message: 'Create success',
@@ -66,21 +66,21 @@ module.exports.create = async (req, res) => {
 module.exports.edit = async (req, res) => {
     try {
         const {id} = req.params;
-        const subject = await Subject.findById(id);
-        if (!subject) {
+        const role = await Role.findById(id);
+        if (!role) {
             return res.json({
                 code: 204,
-                message: "No subject found"
+                message: "No Role found"
             })
         }
-        await subject.updateOne({
+        await role.updateOne({
             ...req.body,
         });
-        const newSubject = await Subject.findById(id);
+        const newRole = await Role.findById(id);
         res.json({
             code: 200,
             message: 'Update success',
-            data: newSubject
+            data: newRole
         });
     } catch (error) {
         res.json({
@@ -93,14 +93,14 @@ module.exports.edit = async (req, res) => {
 module.exports.delete = async (req, res)=> {
     try {
         const {id} = req.params;
-        const subject = await Subject.findById(id);
-        if (!subject) {
+        const role = await Role.findById(id);
+        if (!role) {
             return res.json({
                 code: 204,
-                message: "No subject found"
+                message: "No Role found"
             })
         }
-        await subject.deleteOne()
+        await role.deleteOne()
         res.json({
             code: 200,
             message: 'Delete success'
