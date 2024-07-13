@@ -1,6 +1,7 @@
+const { date } = require('joi');
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const sesionSchema = new mongoose.Schema({
+const sessionSchema = new mongoose.Schema({
     type: String,
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -10,11 +11,17 @@ const sesionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exam'
     },
+    token: String,
+    expired: Boolean,
+    expireAt: {
+        type: Date,
+        require: true
+    }
 }, {
     timestamps: true,
-    collection: 'Sesion'
+    collection: 'Session'
 });
 
 
-const Sesion = mongoose.model('Sesion', sesionSchema);
-module.exports = Sesion;
+const Session = mongoose.model('Session', sessionSchema);
+module.exports = Session;

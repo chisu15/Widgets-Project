@@ -3,8 +3,8 @@ const router = express.Router();
 const controller = require("../controllers/subject.controller");
 
 router.get('/', controller.index);
-router.get('/:id', controller.detail);
-router.post('/', controller.create);
+router.get('/detail/:id', controller.detail);
+router.post('/create', controller.create);
 router.patch('/edit/:id', controller.edit);
-router.delete('/:id', controller.delete);
+router.delete('/delete/:id', controller.delete);
 module.exports = router;

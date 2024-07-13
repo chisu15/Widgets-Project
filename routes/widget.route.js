@@ -3,6 +3,6 @@ const router = express.Router();
 const controller = require("../controllers/widget.controller");
 
 router.get('/', controller.index);
-router.post('/', controller.create);
+router.post('/create', controller.create);
 
 module.exports = router;

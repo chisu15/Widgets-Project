@@ -1,9 +1,10 @@
 const User = require("../models/user.model");
+const Session = require("../models/session.model");
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const createError = require('http-errors')
-const {signAccessToken} = require("../helpers/jwt_service");
+const {signAccessToken, signRefreshToken, verifyRefreshToken, verifyAccessToken} = require("../helpers/jwt_service");
 const {userValidate} = require("../helpers/validation");
 
 module.exports.index = async (req, res) => {
@@ -92,9 +93,20 @@ module.exports.login = async (req, res) => {
         });
 
         const accessToken = await signAccessToken(user._id)
-
+        const refreshToken = await signRefreshToken(user._id)
+        const expireAt = new Date(Date.now() + parseInt(process.env.EXPIRE_TIME));
+        console.log("ExpireAt---------: ", expireAt);
+        const session = new Session({
+            type: "user",
+            userId: user.id,
+            token: accessToken,
+            expired: false,
+            expireAt: expireAt
+        })
+        await session.save();
         res.header('Authorization', `bearer ${accessToken}`).send({
-            accessToken
+            accessToken,
+            refreshToken
         });
     } catch (error) {
         res.json({
@@ -126,3 +138,41 @@ module.exports.delete = async (req, res) => {
         })
     }
 }
+
+module.exports.refreshToken = async (req, res) => {
+    try {
+        console.log(req.body);
+        const {refreshToken} = req.body;
+        if (!refreshToken) {
+            res.json({
+                code: 400,
+                error: 'Bad Request'
+            })
+        }
+        const {userId} = await verifyRefreshToken(refreshToken);
+        const user = await User.findById(userId).select('-password');
+        const accessToken = await signAccessToken(userId);
+        const newRefreshToken = await signRefreshToken(userId);
+        res.json({
+            code: 200,
+            user,
+            accessToken,
+            newRefreshToken
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            error: error.message
+        })
+    }
+}
+
+module.exports.logout = async (req, res) => {
+    try {
+        const token = req.header('Authorization').split(' ')[1];
+        await Session.findOneAndUpdate({ token }, { expired: true });
+        res.send('Logged out successfully');
+    } catch (error) {
+        res.json({ code: 400, error: error.message });
+    }
+};

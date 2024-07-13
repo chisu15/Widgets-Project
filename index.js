@@ -5,6 +5,7 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT;
 const db = require('./config/db');
+require('./helpers/cronJob');
 
 db.connect();
 app.use(cors());

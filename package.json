@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.4.4",
+    "node-cron": "^3.0.3",
     "passport": "^0.7.0",
     "slugify": "^1.6.6"
   }
