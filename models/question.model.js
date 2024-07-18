@@ -16,7 +16,10 @@ const questionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    detail: [Object],
+    data: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
+    },
     answer: String
 }, {
     timestamps: true,
