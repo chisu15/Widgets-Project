@@ -1,21 +1,31 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const examSchema = new mongoose.Schema({
-    title: String,
+    title: {
+        type: String,
+        required: true,
+    },
     description: String,
+    duration: {
+        type: Number,
+        require: true
+    },
     subjectId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject'
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
     slug: {
         type: String,
         unique: true
-    }
-
+    },
+    createBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    widgetId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Widget'
+    },
 }, {
     timestamps: true,
     collection: 'Exam'

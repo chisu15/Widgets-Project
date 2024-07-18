@@ -12,7 +12,10 @@ const widgetSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    detail: [Object]
+    data: {
+        type: mongoose.Schema.Types.Mixed,
+        required: true,
+    }
 }, {
     timestamps: true,
     collection: 'Widget'

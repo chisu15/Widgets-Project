@@ -1,5 +1,7 @@
 const Exam = require("../models/exam.model");
-
+const {signAccessToken, signRefreshToken, verifyRefreshToken, verifyAccessToken} = require("../helpers/jwt_service");
+const Session = require("../models/session.model");
+const {scheduleSessionExpiry} = require("../helpers/scheduleSession");
 module.exports.index = async (req, res) => {
     try {
         const examList = await Exam.find();
@@ -22,9 +24,11 @@ module.exports.index = async (req, res) => {
     }
 }
 
-module.exports.detail= async (req, res) => {
+module.exports.detail = async (req, res) => {
     try {
-        const { id } = req.params;
+        const {
+            id
+        } = req.params;
         const exam = await Exam.findById(id);
         if (!exam) {
             return res.json({
@@ -47,10 +51,29 @@ module.exports.detail= async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const examCreate = new Exam({
-            ...req.body,
+        const {
+            title,
+            description,
+            duration,
+            subjectId,
+            widgetId
+        } = req.body;
+        if (!duration || !title){
+            return res.json({
+                code: 400,
+                message: "Missing information"
+            })
+        }
+        const createBy = req.user._id;
+        const exam = new Exam({
+            title,
+            description,
+            duration,
+            subjectId,
+            widgetId,
+            createBy
         });
-        await examCreate.save();
+        await exam.save();
         res.json({
             code: 200,
             message: 'Create success',
@@ -65,7 +88,9 @@ module.exports.create = async (req, res) => {
 
 module.exports.edit = async (req, res) => {
     try {
-        const {id} = req.params;
+        const {
+            id
+        } = req.params;
         const exam = await Exam.findById(id);
         if (!exam) {
             return res.json({
@@ -90,9 +115,11 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-module.exports.delete = async (req, res)=> {
+module.exports.delete = async (req, res) => {
     try {
-        const {id} = req.params;
+        const {
+            id
+        } = req.params;
         const exam = await Exam.findById(id);
         if (!exam) {
             return res.json({
@@ -110,5 +137,43 @@ module.exports.delete = async (req, res)=> {
             code: 400,
             error: error.message
         })
+    }
+}
+
+module.exports.start = async (req, res) => {
+    try {
+        const {
+            id
+        } = req.params;
+        const userId = req.user._id;
+        const exam = await Exam.findById(id);
+        if (!exam) return res.json({
+            code: 404,
+            message: "Exam not found"
+        });
+
+        const accessToken = await signAccessToken(userId);
+        const expireAt = new Date(Date.now() + exam.duration * 60000);
+
+        const session = new Session({
+            type: "exam",
+            userId: userId,
+            examId: id,
+            token: accessToken,
+            expired: false,
+            expireAt: expireAt
+        });
+        await session.save();
+
+        scheduleSessionExpiry(session._id, expireAt);
+
+        res.header('Authorization', `Bearer ${accessToken}`).send({
+            accessToken
+        });
+    } catch (error) {
+        res.json({
+            code: 400,
+            error: error.message
+        });
     }
 }

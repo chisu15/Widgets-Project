@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const createError = require('http-errors')
 const {signAccessToken, signRefreshToken, verifyRefreshToken, verifyAccessToken} = require("../helpers/jwt_service");
 const {userValidate} = require("../helpers/validation");
-
+const {scheduleSessionExpiry} = require("../helpers/scheduleSession");
 module.exports.index = async (req, res) => {
     try {
         const userList = await User.find().select('-password');
@@ -104,9 +104,13 @@ module.exports.login = async (req, res) => {
             expireAt: expireAt
         })
         await session.save();
+
+        scheduleSessionExpiry(session.id, session.expireAt);
+
         res.header('Authorization', `bearer ${accessToken}`).send({
-            accessToken,
-            refreshToken
+            code: 200,
+            message: "Login success",
+            token: accessToken,
         });
     } catch (error) {
         res.json({
