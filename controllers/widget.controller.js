@@ -22,6 +22,31 @@ module.exports.index = async (req, res) => {
     }
 }
 
+module.exports.detail = async (req, res)=> {
+    try {
+        const {
+            id
+        } = req.params;
+        const widget = await Widget.findById(id);
+        if (!widget) {
+            return res.json({
+                code: 204,
+                message: "No widget found"
+            })
+        }
+        res.json({
+            code: 200,
+            message: "Widget retrieved successfully",
+            data: widget
+        });
+    } catch (error) {
+        res.json({
+            code: 400,
+            error: error.message
+        })
+    }
+}
+
 module.exports.create = async (req, res) => {
     try {
         const data = req.body;
