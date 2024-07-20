@@ -1,0 +1,250 @@
+{
+    "id": "4613589203156992",
+    "label": "",
+    "description": "",
+    "type": "Quiz",
+    "createdAt": 1721320919282,
+    "updatedAt": 1721321325686,
+    "folder": null,
+    "version": 19,
+    "config": {
+        "id": "",
+        "book_title": "",
+        "submit_answers": true,
+        "submit_only_once": false,
+        "submitformfields": {
+            "student_name": {
+                "isVisible": true,
+                "isEditable": true,
+                "defaultValue": ""
+            },
+            "student_email": {
+                "isVisible": true,
+                "isEditable": true,
+                "defaultValue": ""
+            },
+            "student_id": {
+                "isVisible": false,
+                "isEditable": true,
+                "defaultValue": ""
+            },
+            "student_class_id": {
+                "isVisible": false,
+                "isEditable": true,
+                "defaultValue": ""
+            },
+            "teacher_email": {
+                "isVisible": true,
+                "isEditable": false,
+                "defaultValue": ""
+            }
+        },
+        "email_should_have_grading": true,
+        "action": "https:\/\/api.bookwidgets.com\/api\/v1\/quiz\/post",
+        "examination_mode": false,
+        "countdown_time": "30",
+        "exam_mode_submit_dialog_clear": false,
+        "show_correct": true,
+        "show_answers": true,
+        "show_password": "",
+        "color_correct_answers": "no",
+        "show_question_points": false,
+        "show_score": "No",
+        "allow_edit_after_check_or_send": false,
+        "lock_correct_answers_on_continue_editing": false,
+        "show_feedback": "always",
+        "question_by_question": false,
+        "question_by_question_check": false,
+        "question_by_question_see_prev": true,
+        "random_order": false,
+        "auto_numbering": true,
+        "info_numbering": false,
+        "startup_password": "",
+        "require_password": "Once",
+        "safe_exam_browser": false,
+        "seb_encryption_pwd": "",
+        "seb_quit_pwd": "",
+        "seb_file": "",
+        "seb_ignore_seb_service": false,
+        "spellcheck": true,
+        "instructions_title": "H\u01b0\u1edbng d\u1eabn",
+        "instructions": {
+            "data": {
+                "blocks": [
+                    {
+                        "text": "",
+                        "type": "unstyled",
+                        "dataRanges": []
+                    }
+                ]
+            },
+            "rich": true
+        },
+        "questions": [
+            {
+                "_type": "MultiSelectQuestionTable",
+                "Question": {
+                    "text": "C\u00e1c \u0111\u1ed9ng v\u1eadt d\u01b0\u1edbi \u0111\u00e2y c\u00f3 m\u1ea5y ch\u00e2n?"
+                },
+                "columns": "\"G\u00e0\",\n\"V\u1ecbt\",\n\"B\u00f2\",\n\"L\u1ee3n\"",
+                "rows": "'2##G\u00e0##V\u1ecbt'",
+                "limited_selection": false,
+                "id": "b8c2d450-4524-11ef-ae35-d14996663111",
+                "number": "",
+                "needs_correction": true,
+                "policy": "eachrow",
+                "scoring-weight": "1",
+                "scoring-wrong-answer-weight": "",
+                "question_categories": ""
+            }
+        ]
+    },
+    "isStudentNameUnsettable": false,
+    "group": null,
+    "resourcesBaseURL": null,
+    "school": null,
+    "about": {},
+    "isLinkable": null,
+    "creator": {
+        "id": "5667870815551488"
+    },
+    "activeTranslation": "vi",
+    "typeName": "C\u00e2u h\u1ecfi",
+    "typeID": "Quiz",
+    "shareStudentsURL": null,
+    "shareStudentsQRURL": null,
+    "shareTeachersURL": null,
+    "isShortcodeOutdated": false
+}
+
+
+        "questions": [
+            {
+                "_type": "TextMultpleChoice",
+                "Question": {
+                    "text": "Con n\u00e0o c\u00f3 2 ch\u00e2n"
+                },
+                "Answers": "G\u00e0\nB\u00f2 \nCh\u00f3\nL\u1ee3n",
+                "Valid": "1",
+                "random-answer-order": true,
+                "multi-column": false,
+                "id": "6bf2a910-4575-11ef-aa84-7d395364b499",
+                "scratchpad": false,
+                "Rationale": {
+                    "text": "",
+                    "rich": false
+                },
+                "rationale_img": {
+                    "file": "",
+                    "autosize": true,
+                    "alttext": ""
+                },
+                "rationale_imgsize": "Big",
+                "hint": {
+                    "text": "",
+                    "rich": false
+                },
+                "audio": "",
+                "audioNumberOfPlayes": "",
+                "img": {
+                    "file": "",
+                    "autosize": true
+                },
+                "imgsize": "Big",
+                "imgpos": "After question",
+                "number": "",
+                "metadata": "",
+                "needs_correction": true,
+                "color_correct_answers": false,
+                "scoring-weight": "1",
+                "question_categories": ""
+            },
+            {
+                "_type": "TextMultpleChoice",
+                "Question": {
+                    "text": "H\u00f4m nay l\u00e0 th\u1ee9 m\u1ea5y"
+                },
+                "Answers": "2\n3\n4\n5\n6",
+                "Valid": "5",
+                "random-answer-order": true,
+                "multi-column": false,
+                "id": "ada31ba0-4576-11ef-8cff-3d14392697cf",
+                "scratchpad": false,
+                "Rationale": {
+                    "text": "",
+                    "rich": false
+                },
+                "rationale_alttext": "",
+                "rationale_img": {
+                    "file": "",
+                    "autosize": true
+                },
+                "rationale_imgsize": "Big",
+                "hint": {
+                    "text": "",
+                    "rich": false
+                },
+                "audio": "",
+                "audioNumberOfPlayes": "",
+                "img": {
+                    "file": "",
+                    "autosize": true
+                },
+                "imgsize": "Big",
+                "imgpos": "After question",
+                "number": "",
+                "metadata": "",
+                "needs_correction": true,
+                "color_correct_answers": false,
+                "scoring-weight": "1",
+                "question_categories": ""
+            }
+        ]
+    },
+
+
+
+
+
+
+    {
+    "title": "Math Quiz",
+    "description": "A quiz about basic math",
+    "generalTypeId": "6699421432c6ff3baa0925c5",
+    "createdBy": "668a3bf18b9ee81bf4501c65",
+    "data": [
+        {
+            "questionTypeId": "6699696f8462a1df23f4b3d7",
+            "question": [
+                {
+                    "text": "",
+                    "colums": "",
+                    "row": "",
+                    "answer": ""
+                },
+                {
+                    "text": "",
+                    "colums": "",
+                    "row": "",
+                    "answer": ""
+                }
+            ]
+        },
+        {
+            "questionTypeId": "6699696f8462a1df23f4b3d7",
+            "question": [
+                {
+                    "text": "",
+                    "colums": "",
+                    "row": "",
+                    "answer": ""
+                },
+                {
+                    "text": "",
+                    "colums": "",
+                    "row": "",
+                    "answer": ""
+                }
+        }
+    ]
+}

@@ -1,21 +1,30 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const widgetSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    type: String,
+    title: {
+        type: String,
+        default: "Untitle",
+    },
+    description: {
+        type: String,
+        default: ""
+    },
+    generalTypeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "GeneralType",
+        required: true,
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
     slug: {
-        type: String,
-        unique: true
+        type: String
     },
-    data: {
+    data: [{
         type: mongoose.Schema.Types.Mixed,
-        required: true,
-    }
+        default: ''
+    }]
 }, {
     timestamps: true,
     collection: 'Widget'

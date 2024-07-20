@@ -1,18 +1,18 @@
-const Typedef = require("../models/typedef.model");
+const SpecificType = require("../models/questionType.model");
 
 module.exports.index = async (req, res) => {
     try {
-        const typedefList = await Typedef.find();
-        if (typedefList.length === 0) {
+        const specificTypeList = await SpecificType.find();
+        if (specificTypeList.length === 0) {
             return res.json({
                 code: 204,
-                message: "No typedef found"
+                message: "No SpecificType found"
             })
         }
         res.json({
             code: 200,
             message: "Get data success",
-            data: typedefList
+            data: specificTypeList
         })
     } catch (error) {
         res.json({
@@ -25,17 +25,17 @@ module.exports.index = async (req, res) => {
 module.exports.detail= async (req, res) => {
     try {
         const { id } = req.params;
-        const typedef = await Typedef.findById(id);
-        if (!typedef) {
+        const specificType = await SpecificType.findById(id);
+        if (!specificType) {
             return res.json({
                 code: 204,
-                message: "No typedef found"
+                message: "No SpecificType found"
             })
         }
         res.json({
             code: 200,
             message: 'Get data success',
-            data: typedef
+            data: SpecificType
         });
     } catch (error) {
         res.json({
@@ -47,10 +47,17 @@ module.exports.detail= async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const typedefCreate = new Typedef({
-            ...req.body,
+        const data = req.body;
+        if (!data.generalTypeId.length || !data.generalTypeId){
+            return res.json({
+                code: 400,
+                message: "Missing general type"
+            })
+        }
+        const specificTypeCreate = new SpecificType({
+            ...data,
         });
-        await typedefCreate.save();
+        await specificTypeCreate.save();
         res.json({
             code: 200,
             message: 'Create success',
@@ -66,21 +73,21 @@ module.exports.create = async (req, res) => {
 module.exports.edit = async (req, res) => {
     try {
         const {id} = req.params;
-        const typedef = await Typedef.findById(id);
-        if (!typedef) {
+        const specificType = await SpecificType.findById(id);
+        if (!specificType) {
             return res.json({
                 code: 204,
-                message: "No typedef found"
+                message: "No SpecificType found"
             })
         }
-        await typedef.updateOne({
+        await specificType.updateOne({
             ...req.body,
         });
-        const newtypedef = await Typedef.findById(id);
+        const newSpecificType = await SpecificType.findById(id);
         res.json({
             code: 200,
             message: 'Update success',
-            data: newtypedef
+            data: newSpecificType
         });
     } catch (error) {
         res.json({
@@ -93,14 +100,14 @@ module.exports.edit = async (req, res) => {
 module.exports.delete = async (req, res)=> {
     try {
         const {id} = req.params;
-        const typedef = await Typedef.findById(id);
-        if (!typedef) {
+        const specificType = await SpecificType.findById(id);
+        if (!specificType) {
             return res.json({
                 code: 204,
-                message: "No typedef found"
+                message: "No SpecificType found"
             })
         }
-        await typedef.deleteOne()
+        await specificType.deleteOne()
         res.json({
             code: 200,
             message: 'Delete success'

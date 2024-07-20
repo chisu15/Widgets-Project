@@ -5,12 +5,12 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT;
 const db = require('./config/db');
-
+const path = require("path");
 
 db.connect();
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // ROUTE
 const route = require('./routes/index.route');
 route(app);

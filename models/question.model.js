@@ -1,26 +1,41 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const questionSchema = new mongoose.Schema({
-    examId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Exam'
+    text: String,
+    colums: {
+        type: String,
+        default: ''
     },
-    widgetId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Widget"
+    rows: {
+        type: String,
+        default: ''
     },
-    content: String,
-    type: String,
-    order: String,
+    answer: {
+        type: String,
+        default: ''
+    },
+    valid: {
+        type: String,
+        default: ''
+    },
+    randomAnswerOrder: {
+        type: Boolean,
+    },
+    type: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'QuestionType'
+    },
+    image: {
+        type: String,
+        default:""
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    data: {
-        type: mongoose.Schema.Types.Mixed,
-        required: true,
-    },
-    answer: String
+    widgetId: {
+        type: String,
+    }
 }, {
     timestamps: true,
     collection: 'Question'
