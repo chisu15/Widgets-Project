@@ -62,15 +62,13 @@ module.exports.detail = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const {
-            title,
-            description
-        } = req.body;
-        // const image = req.file ? `/uploads/questionType/${req.file.filename}` : '';
-        const image = path.join(`/uploads/`, req.file.filename);
+        var image;
+        if (req.file){
+            image = path.join(`/tmp/`, req.file.filename);
+        }
+        // const image = req.file ? `/tmp/questionType/${req.file.filename}` : '';
         const questionTypeCreate = new QuestionType({
-            title,
-            description,
+            ...req.body,
             image
         });
         console.log(questionTypeCreate);
@@ -114,15 +112,15 @@ module.exports.edit = async (req, res) => {
         if (req.file) {
             if (questionType.image) {
                 // const oldPath = path.join(__dirname, imageDir(questionType.image));
-                const oldPath = path.join(`/uploads/`, imageDir(questionType.image));
+                const oldPath = path.join(`/tmp/`, imageDir(questionType.image));
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error("Failed to delete old image:", err);
                 });
             }
             if (questionType.image == null || questionType.image.length == 0) {
-                updatedData.image = path.join(`/uploads/`, req.file.filename)
+                updatedData.image = path.join(`/tmp/`, req.file.filename)
             }
-            updatedData.image = path.join(`/uploads/`, req.file.filename);
+            updatedData.image = path.join(`/tmp/`, req.file.filename);
         }
 
         await questionType.updateOne({
@@ -162,9 +160,9 @@ module.exports.delete = async (req, res) => {
             })
         }
         if (questionType.image) {
-            // path.join(`/uploads/questionType/`, imageDir(questionType.image))
+            // path.join(`/tmp/questionType/`, imageDir(questionType.image))
             // const oldPath = path.join(__dirname, imageDir(questionType.image));
-            const oldPath = path.join(`/uploads/`, imageDir(questionType.image));
+            const oldPath = path.join(`/tmp/`, imageDir(questionType.image));
             fs.unlink(oldPath, (err) => {
                 if (err) console.error("Failed to delete image:", err);
             });
