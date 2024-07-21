@@ -7,11 +7,6 @@ const {
 
 const createStorage = (uploadDir) => multer.diskStorage({
     destination: (req, file, cb) => {
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, {
-                recursive: true
-            });
-        }
         cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
@@ -22,7 +17,8 @@ const createStorage = (uploadDir) => multer.diskStorage({
 });
 
 const upload = (fieldName, folderName) => {
-    const uploadDir = path.join(__dirname, `/uploads/${folderName}`);
+    // const uploadDir = path.join(__dirname, `/uploads/${folderName}`);
+    const uploadDir = `/uploads/${folderName}`;
     const storage = createStorage(uploadDir);
     return multer({
         storage: storage
