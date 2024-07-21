@@ -17,6 +17,8 @@ const createStorage = (uploadDir) => multer.diskStorage({
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + "-" + generateRandomString(22);
         const filename = file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname);
+        console.log('', filename);
+        console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTHHHHHHHHH', __dirname);
         cb(null, filename);
     }
 });
