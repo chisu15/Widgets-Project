@@ -62,11 +62,11 @@ module.exports.detail = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        console.log("controller called");
-        // const image = req.file ? `/uploads/generalType/${req.file.filename}` : '';
+        console.log("controller called\nreq.body: ", req.body);
+        // const image = req.file ? `/tmp/generalType/${req.file.filename}` : '';
         var image;
         if (req.file){
-            image = path.join(`/uploads/`, req.file.filename);
+            image = path.join(`/tmp/`, req.file.filename);
         }
         console.log("controller :", image);
         const generalTypeCreate = new GeneralType({
@@ -114,15 +114,15 @@ module.exports.edit = async (req, res) => {
         if (req.file) {
             if (generalType.image) {
                 // const oldPath = path.join(__dirname, imageDir(generalType.image));
-                const oldPath = path.join(`/uploads/`, imageDir(generalType.image));
+                const oldPath = path.join(`/tmp/`, imageDir(generalType.image));
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error("Failed to delete old image:", err);
                 });
             }
             if (generalType.image == null || generalType.image.length == 0) {
-                updatedData.image = path.join(`/uploads/`, req.file.filename);
+                updatedData.image = path.join(`/tmp/`, req.file.filename);
             }
-            updatedData.image = path.join(`/uploads/`, req.file.filename);
+            updatedData.image = path.join(`/tmp/`, req.file.filename);
         }
 
         await generalType.updateOne({
@@ -163,7 +163,7 @@ module.exports.delete = async (req, res) => {
         }
         if (generalType.image) {
             // const oldPath = path.join(__dirname, imageDir(generalType.image));
-            const oldPath = path.join(`/uploads/`, imageDir(generalType.image));
+            const oldPath = path.join(`/tmp/`, imageDir(generalType.image));
             fs.unlink(oldPath, (err) => {
                 if (err) console.error("Failed to delete image:", err);
             });
