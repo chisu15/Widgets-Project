@@ -62,15 +62,14 @@ module.exports.detail = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const {
-            title,
-            description
-        } = req.body;
         // const image = req.file ? `/uploads/generalType/${req.file.filename}` : '';
-        const image = path.join(`/uploads/generalType/`, req.file.filename);
+        var image;
+        if (req.file){
+            image = path.join(`/uploads/generalType/`, req.file.filename);
+        }
+        console.log("controller :", image);
         const generalTypeCreate = new GeneralType({
-            title,
-            description,
+            ...req.body,
             image
         });
         console.log(generalTypeCreate);
