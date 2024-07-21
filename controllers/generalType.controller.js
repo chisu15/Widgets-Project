@@ -66,7 +66,7 @@ module.exports.create = async (req, res) => {
         // const image = req.file ? `/uploads/generalType/${req.file.filename}` : '';
         var image;
         if (req.file){
-            image = path.join(`/uploads/generalType/`, req.file.filename);
+            image = path.join(`/uploads/`, req.file.filename);
         }
         console.log("controller :", image);
         const generalTypeCreate = new GeneralType({
@@ -114,15 +114,15 @@ module.exports.edit = async (req, res) => {
         if (req.file) {
             if (generalType.image) {
                 // const oldPath = path.join(__dirname, imageDir(generalType.image));
-                const oldPath = path.join(`/uploads/generalType/`, imageDir(generalType.image));
+                const oldPath = path.join(`/uploads/`, imageDir(generalType.image));
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error("Failed to delete old image:", err);
                 });
             }
             if (generalType.image == null || generalType.image.length == 0) {
-                updatedData.image = path.join(`/uploads/generalType/`, req.file.filename);
+                updatedData.image = path.join(`/uploads/`, req.file.filename);
             }
-            updatedData.image = path.join(`/uploads/generalType/`, req.file.filename);
+            updatedData.image = path.join(`/uploads/`, req.file.filename);
         }
 
         await generalType.updateOne({
@@ -163,7 +163,7 @@ module.exports.delete = async (req, res) => {
         }
         if (generalType.image) {
             // const oldPath = path.join(__dirname, imageDir(generalType.image));
-            const oldPath = path.join(`/uploads/generalType/`, imageDir(generalType.image));
+            const oldPath = path.join(`/uploads/`, imageDir(generalType.image));
             fs.unlink(oldPath, (err) => {
                 if (err) console.error("Failed to delete image:", err);
             });
