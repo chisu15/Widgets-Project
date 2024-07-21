@@ -10,8 +10,8 @@ const path = require("path");
 db.connect();
 app.use(cors());
 app.use(bodyParser.json());
-// app.use('/tmp', express.static(path.join(__dirname, '/tmp/')));
-app.use('/tmp', express.static('/tmp/'));
+app.use('/tmp', express.static(path.join(__dirname, '/tmp/')));
+// app.use('/tmp', express.static('/tmp/'));
 // ROUTE
 const route = require('./routes/index.route');
 route(app);
