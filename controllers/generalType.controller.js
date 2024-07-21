@@ -62,6 +62,7 @@ module.exports.detail = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
+        console.log("controller called");
         // const image = req.file ? `/uploads/generalType/${req.file.filename}` : '';
         var image;
         if (req.file){
