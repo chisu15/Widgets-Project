@@ -66,7 +66,8 @@ module.exports.create = async (req, res) => {
             title,
             description
         } = req.body;
-        const image = req.file ? `/uploads/generalType/${req.file.filename}` : '';
+        // const image = req.file ? `/uploads/generalType/${req.file.filename}` : '';
+        const image = path.join(`/uploads/generalType/`, req.file.filename);
         const generalTypeCreate = new GeneralType({
             title,
             description,
@@ -112,15 +113,16 @@ module.exports.edit = async (req, res) => {
         }
         if (req.file) {
             if (generalType.image) {
-                const oldPath = path.join(__dirname, imageDir(generalType.image));
+                // const oldPath = path.join(__dirname, imageDir(generalType.image));
+                const oldPath = path.join(`/uploads/generalType/`, imageDir(generalType.image));
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error("Failed to delete old image:", err);
                 });
             }
             if (generalType.image == null || generalType.image.length == 0) {
-                updatedData.image = `/uploads/generalType/${req.file.filename}`;
+                updatedData.image = path.join(`/uploads/generalType/`, req.file.filename);
             }
-            updatedData.image = `/uploads/generalType/${req.file.filename}`;
+            updatedData.image = path.join(`/uploads/generalType/`, req.file.filename);
         }
 
         await generalType.updateOne({
@@ -160,7 +162,8 @@ module.exports.delete = async (req, res) => {
             })
         }
         if (generalType.image) {
-            const oldPath = path.join(__dirname, imageDir(generalType.image));
+            // const oldPath = path.join(__dirname, imageDir(generalType.image));
+            const oldPath = path.join(`/uploads/generalType/`, imageDir(generalType.image));
             fs.unlink(oldPath, (err) => {
                 if (err) console.error("Failed to delete image:", err);
             });

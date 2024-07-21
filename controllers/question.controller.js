@@ -62,7 +62,8 @@ module.exports.detail = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const image = req.file ? `/uploads/question/${req.file.filename}` : '';
+        // const image = req.file ? `/uploads/question/${req.file.filename}` : '';
+        const image = path.join(`/uploads/question/`, req.file.filename);
         const questionCreate = new Question({
             ...req.body,
             image
@@ -99,15 +100,16 @@ module.exports.edit = async (req, res) => {
         }
         if (req.file) {
             if (question.image) {
-                const oldPath = path.join(__dirname, imageDir(question.image));
+                // const oldPath = path.join(__dirname, imageDir(question.image));
+                const oldPath = path.join(`/uploads/question/`, imageDir(question.image));
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error("Failed to delete old image:", err);
                 });
             }
             if (question.image == null || question.image.length == 0) {
-                updatedData.image = `/uploads/question/${req.file.filename}`;
+                updatedData.image = path.join(`/uploads/question/`, req.file.filename);
             }
-            updatedData.image = `/uploads/question/${req.file.filename}`;
+            updatedData.image = path.join(`/uploads/question/`, req.file.filename);
         }
 
         await question.updateOne({
@@ -147,7 +149,8 @@ module.exports.delete = async (req, res) => {
             })
         }
         if (question.image) {
-            const oldPath = path.join(__dirname, imageDir(question.image));
+            // const oldPath = path.join(__dirname, imageDir(question.image));
+            const oldPath = path.join(`/uploads/question/`, imageDir(question.image));;
             fs.unlink(oldPath, (err) => {
                 if (err) console.error("Failed to delete image:", err);
             });
