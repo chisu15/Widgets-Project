@@ -20,7 +20,8 @@ const createStorage = (uploadDir) => multer.diskStorage({
 
 const upload = (fieldName, folderName) => {
     // const uploadDir = path.join(__dirname, `/uploads/${folderName}`);
-    const uploadDir = `/uploads/${folderName}`;
+    const uploadDir = path.join('/uploads/', folderName);
+    
     const storage = createStorage(uploadDir);
     return multer({
         storage: storage
