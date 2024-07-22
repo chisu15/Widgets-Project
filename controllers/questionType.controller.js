@@ -16,7 +16,7 @@ module.exports.index = async (req, res) => {
         }
         const result = questionTypeList.map(questionType => ({
             ...questionType.toObject(),
-            image: questionType.image ? `${baseUrl}${questionType.image}` : ''
+            image: questionType.image ? `${baseUrl}${questionType.image}` : null
         }));
         res.json({
             code: 200,
@@ -62,13 +62,14 @@ module.exports.detail = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        var image;
-        if (req.file){
-            image = path.join(`/tmp/`, req.file.filename);
-        }
-        // const image = req.file ? `/tmp/questionType/${req.file.filename}` : '';
+        const {
+            title,
+            description
+        } = req.body;
+        const image = req.file ? `/uploads/questionType/${req.file.filename}` : '';
         const questionTypeCreate = new QuestionType({
-            ...req.body,
+            title,
+            description,
             image
         });
         console.log(questionTypeCreate);
@@ -111,16 +112,15 @@ module.exports.edit = async (req, res) => {
         }
         if (req.file) {
             if (questionType.image) {
-                // const oldPath = path.join(__dirname, imageDir(questionType.image));
-                const oldPath = path.join(`/tmp/`, imageDir(questionType.image));
+                const oldPath = path.join(__dirname, imageDir(questionType.image));
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error("Failed to delete old image:", err);
                 });
             }
             if (questionType.image == null || questionType.image.length == 0) {
-                updatedData.image = path.join(`/tmp/`, req.file.filename)
+                updatedData.image = `/uploads/questionType/${req.file.filename}`;
             }
-            updatedData.image = path.join(`/tmp/`, req.file.filename);
+            updatedData.image = `/uploads/questionType/${req.file.filename}`;
         }
 
         await questionType.updateOne({
@@ -160,9 +160,7 @@ module.exports.delete = async (req, res) => {
             })
         }
         if (questionType.image) {
-            // path.join(`/tmp/questionType/`, imageDir(questionType.image))
-            // const oldPath = path.join(__dirname, imageDir(questionType.image));
-            const oldPath = path.join(`/tmp/`, imageDir(questionType.image));
+            const oldPath = path.join(__dirname, imageDir(questionType.image));
             fs.unlink(oldPath, (err) => {
                 if (err) console.error("Failed to delete image:", err);
             });
