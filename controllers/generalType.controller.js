@@ -36,7 +36,7 @@ module.exports.detail = async (req, res) => {
         const {
             id
         } = req.params;
-        const generalType = await GeneralType.findById(id);
+        const generalType = await GeneralType.findOne({ID: id}) || await GeneralType.findById(id);
         const image = `${req.protocol}://${req.get('host')}${generalType.image}`;
         if (!generalType) {
             return res.json({
@@ -100,7 +100,7 @@ module.exports.edit = async (req, res) => {
             description
         }
         console.log(updatedData);
-        const generalType = await GeneralType.findById(id);
+        const generalType = await GeneralType.findOne({ID: id}) || await GeneralType.findById(id);
         if (!generalType) {
             return res.json({
                 code: 204,
@@ -126,7 +126,7 @@ module.exports.edit = async (req, res) => {
         await generalType.updateOne({
             ...updatedData
         });
-        const updatedGeneralType = await GeneralType.findById(id);
+        const updatedGeneralType = await GeneralType.findOne({ID: id}) || await GeneralType.findById(id);
         let image = updatedGeneralType.image;
         if (updatedGeneralType.image.length != 0) {
             image = `${req.protocol}://${req.get('host')}${updatedGeneralType.image}`
@@ -152,7 +152,7 @@ module.exports.delete = async (req, res) => {
         const {
             id
         } = req.params;
-        const generalType = await GeneralType.findById(id);
+        const generalType = await GeneralType.findOne({ID: id}) || await GeneralType.findById(id);
         if (!generalType) {
             return res.json({
                 code: 204,

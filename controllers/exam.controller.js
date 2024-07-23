@@ -29,7 +29,7 @@ module.exports.detail = async (req, res) => {
         const {
             id
         } = req.params;
-        const exam = await Exam.findById(id);
+        const exam = await Exam.findOne({ID: id}) || await Exam.findById(id);
         if (!exam) {
             return res.json({
                 code: 204,
@@ -91,7 +91,7 @@ module.exports.edit = async (req, res) => {
         const {
             id
         } = req.params;
-        const exam = await Exam.findById(id);
+        const exam = await Exam.findOne({ID: id}) || await Exam.findById(id);
         if (!exam) {
             return res.json({
                 code: 204,
@@ -101,7 +101,7 @@ module.exports.edit = async (req, res) => {
         await exam.updateOne({
             ...req.body,
         });
-        const newexam = await Exam.findById(id);
+        const newexam = await Exam.findOne({ID: id}) || await Exam.findById(id);
         res.json({
             code: 200,
             message: 'Update success',
@@ -120,7 +120,7 @@ module.exports.delete = async (req, res) => {
         const {
             id
         } = req.params;
-        const exam = await Exam.findById(id);
+        const exam = await Exam.findOne({ID: id}) || await Exam.findById(id);
         if (!exam) {
             return res.json({
                 code: 204,
@@ -146,7 +146,7 @@ module.exports.start = async (req, res) => {
             id
         } = req.params;
         const userId = req.user._id;
-        const exam = await Exam.findById(id);
+        const exam = await Exam.findOne({ID: id}) || await Exam.findById(id);
         if (!exam) return res.json({
             code: 404,
             message: "Exam not found"

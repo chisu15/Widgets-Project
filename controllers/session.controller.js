@@ -46,9 +46,7 @@ module.exports.detail = async (req, res) => {
         const {
             id
         } = req.params;
-        const session = await Session.findOne({
-            id
-        });
+        const session = await Session.findOne({ID: id}) || await Session.findById(id);
         if (!session) {
             return res.json({
                 code: 204,
@@ -74,7 +72,7 @@ module.exports.delete = async (req, res) => {
             id
         } = req.params;
         console.log(id);
-        const session = await Session.findOne(id);
+        const session = await Session.findOne({ID: id}) || await Session.findById(id);
         console.log(session);
         if (!session) {
             return res.json({

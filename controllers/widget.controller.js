@@ -27,7 +27,7 @@ module.exports.detail = async (req, res)=> {
         const {
             id
         } = req.params;
-        const widget = await Widget.findById(id);
+        const widget = await Widget.findOne({ID: id}) || await Widget.findById(id);
         if (!widget) {
             return res.json({
                 code: 204,
@@ -72,7 +72,7 @@ module.exports.edit = async (req, res) => {
         const {
             id
         } = req.params;
-        const widget = await Widget.findById(id);
+        const widget = await Widget.findOne({ID: id}) || await Widget.findById(id);
         if (!widget) {
             return res.json({
                 code: 204,
@@ -82,7 +82,7 @@ module.exports.edit = async (req, res) => {
         await widget.updateOne({
             ...req.body,
         });
-        const newWidget = await Widget.findById(id);
+        const newWidget = await Widget.findOne({ID: id}) || await Widget.findById(id);
         res.json({
             code: 200,
             message: 'Update success',
@@ -101,7 +101,7 @@ module.exports.delete = async (req, res) => {
         const {
             id
         } = req.params;
-        const widget = await Widget.findById(id);
+        const widget = await Widget.findOne({ID: id}) || await Widget.findById(id);
         if (!widget) {
             return res.json({
                 code: 204,

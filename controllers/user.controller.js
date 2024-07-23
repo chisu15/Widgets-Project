@@ -98,7 +98,7 @@ module.exports.login = async (req, res) => {
         console.log("ExpireAt---------: ", expireAt);
         const session = new Session({
             type: "user",
-            userId: user.id,
+            userId: user.ID,
             token: accessToken,
             expired: false,
             expireAt: expireAt
@@ -123,7 +123,7 @@ module.exports.login = async (req, res) => {
 module.exports.delete = async (req, res) => {
     try {
         const {id} = req.params;
-        const user = await User.findById(id);
+        const user = await User.findOne({ID: id});
         if (!user) {
             return res.json({
                 code: 204,

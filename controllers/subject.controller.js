@@ -25,7 +25,7 @@ module.exports.index = async (req, res) => {
 module.exports.detail= async (req, res) => {
     try {
         const { id } = req.params;
-        const subject = await Subject.findById(id);
+        const subject = await Subject.findOne({ID: id}) || await Subject.findById(id);
         if (!subject) {
             return res.json({
                 code: 204,
@@ -66,7 +66,7 @@ module.exports.create = async (req, res) => {
 module.exports.edit = async (req, res) => {
     try {
         const {id} = req.params;
-        const subject = await Subject.findById(id);
+        const subject = await Subject.findOne({ID: id}) || await Subject.findById(id);
         if (!subject) {
             return res.json({
                 code: 204,
@@ -76,7 +76,7 @@ module.exports.edit = async (req, res) => {
         await subject.updateOne({
             ...req.body,
         });
-        const newSubject = await Subject.findById(id);
+        const newSubject = await Subject.findOne({ID: id}) || await Subject.findById(id);
         res.json({
             code: 200,
             message: 'Update success',
@@ -93,7 +93,7 @@ module.exports.edit = async (req, res) => {
 module.exports.delete = async (req, res)=> {
     try {
         const {id} = req.params;
-        const subject = await Subject.findById(id);
+        const subject = await Subject.findOne({ID: id}) || await Subject.findById(id);
         if (!subject) {
             return res.json({
                 code: 204,

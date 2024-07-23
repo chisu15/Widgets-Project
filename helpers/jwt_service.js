@@ -1,7 +1,7 @@
 const JWT = require("jsonwebtoken");
 const createError = require('http-errors');
 const User = require("../models/user.model");
-
+const Role = require("../models/role.model");
 const signAccessToken = async (userId)=>{
     return new Promise((resolve, reject) => {
         const payload = {userId};
@@ -39,7 +39,9 @@ const verifyAccessToken = (roles = []) => {
             }
             req.payload = payload;
             const user = await User.findById(payload.userId).select('-password');
-            if (!user || (roles.length && !roles.includes(user.role))) {
+            const roleID = user.role;
+            const userRole = await Role.findOne({ID: roleID})
+            if (!user || !userRole) {
                 return res.status(403).json({
                     code: 403,
                     message: "Forbidden"

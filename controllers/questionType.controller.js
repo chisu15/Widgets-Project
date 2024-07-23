@@ -36,7 +36,7 @@ module.exports.detail = async (req, res) => {
         const {
             id
         } = req.params;
-        const questionType = await QuestionType.findById(id);
+        const questionType = await QuestionType.findOne({ID: id}) || await QuestionType.findById(id);
         const image = `${req.protocol}://${req.get('host')}${questionType.image}`;
         if (!questionType) {
             return res.json({
@@ -100,7 +100,7 @@ module.exports.edit = async (req, res) => {
             description
         }
         console.log(updatedData);
-        const questionType = await QuestionType.findById(id);
+        const questionType = await QuestionType.findOne({ID: id}) || await QuestionType.findById(id);
         if (!questionType) {
             return res.json({
                 code: 204,
@@ -126,7 +126,7 @@ module.exports.edit = async (req, res) => {
         await questionType.updateOne({
             ...updatedData
         });
-        const updatedQuestionType = await QuestionType.findById(id);
+        const updatedQuestionType = await QuestionType.findOne({ID: id}) || await QuestionType.findById(id);
         let image = updatedQuestionType.image;
         if (updatedQuestionType.image.length != 0) {
             image = `${req.protocol}://${req.get('host')}${updatedQuestionType.image}`
@@ -152,7 +152,7 @@ module.exports.delete = async (req, res) => {
         const {
             id
         } = req.params;
-        const questionType = await QuestionType.findById(id);
+        const questionType = await QuestionType.findOne({ID: id}) || await QuestionType.findById(id);
         if (!questionType) {
             return res.json({
                 code: 204,
